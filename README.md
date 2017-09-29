@@ -20,12 +20,12 @@ using CheddarGetter;
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-		services.AddCheddarGetterService(options =>
-		{
-			  options.productCode = "YourCheddarGetterProductCode";
-			  options.username = "YourCheddarGetterUserName";
-			  options.password = "YourCheddarGetterPassword";
-		});
+    services.AddCheddarGetterService(options =>
+    {
+	options.productCode = "YourCheddarGetterProductCode";
+	options.username = "YourCheddarGetterUserName";
+	options.password = "YourCheddarGetterPassword";
+    });
 }
 ```
 
@@ -37,7 +37,7 @@ using CheddarGetter;
 
 public class YourController
 {
-		private readonly CheddarGetterConfig _config;
+    private readonly CheddarGetterConfig _config;
     public YourController(IOptions<CheddarGetterConfig> options)
     {
         _config.productCode = options.Value.productCode;
@@ -53,7 +53,7 @@ public class YourController
 ```csharp
 public class YourController
 {
-		private readonly CheddarGetterConfig _config;
+    private readonly CheddarGetterConfig _config;
 
     public YourController(IOptions<CheddarGetterConfig> options)
     {
@@ -62,20 +62,20 @@ public class YourController
         _config.password = options.Value.password;
     }
 
-		public async Task<IActionResult> UpdateCustomer(SomeSampleUserModel user) 
+    public async Task<IActionResult> UpdateCustomer(SomeSampleUserModel user) 
     {
-			  var customer = new Customer
-		    {
-					  Code = user.userId.ToString(),
-					  FirstName = user.firstName,
-					  LastName = user.lastName,
-					  Email = user.email,
-					  Company = user.Company,
-					  AdditionalMetaData = "metaData[ip]=" + Request.HttpContext.Connection.RemoteIpAddress + "&metaData[someOtherParam]=SomeOtherValue"
-				};
-				await _cheddar.CreateCustomer(customer);
-				return Json(customer);
-		}
+        var customer = new Customer
+	{
+	    Code = user.userId.ToString(),
+	    FirstName = user.firstName,
+	    LastName = user.lastName,
+	    Email = user.email,
+	    Company = user.Company,
+	    AdditionalMetaData = "metaData[ip]=" + Request.HttpContext.Connection.RemoteIpAddress + "&metaData[someOtherParam]=SomeOtherValue"
+        };
+	await _cheddar.CreateCustomer(customer);
+	return Json(customer);
+    }
 }
 ```
-NOTE: CheddarGetter allows you store custom meta data for each customer.  This Customer and CustomerPost models have an extra string parameter called AdditionalMetaData, which you can use to pass an array of meta data arguments in a standard QueryString format (like in the example above).
+NOTE: CheddarGetter allows you to store custom meta data for each customer.  The ```Customer``` and ```CustomerPost``` models have an extra string parameter called ```AdditionalMetaData```, which you can use to pass an array of meta data arguments in a standard QueryString format (like in the example above).
