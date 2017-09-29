@@ -16,7 +16,7 @@ To use .NET Core dependency injection with options, these two packages are neede
 https://www.nuget.org/packages/CheddarGetter.CollabCoders/1.0.0
 
 
-**3) Add the CheddarGetter namespace of your Startup.cs**: 
+**3) Add the CheddarGetter namespace of your Startup.cs** 
 
 ```csharp
 using CheddarGetter;
