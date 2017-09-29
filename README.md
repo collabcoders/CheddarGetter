@@ -1,6 +1,6 @@
 # [CheddarGetter](https://cheddargetter.com) .Net Core API Services Wrapper
 
-Uses .Net Core Dependancy Injection for ChaddarGetter API (extended from John Siladie's nofxsnap/CheddarGetter repo).  API wrapper has implemented all of CheddarGetter's APIs as of 09/28/2017.
+Uses .Net Core Dependancy Injection for ChaddarGetter API (extended from John Siladie's [nofxsnap/CheddarGetter repo](https://github.com/nofxsnap/CheddarGetter)).  API wrapper has implemented all of CheddarGetter's APIs as of 09/28/2017.
 
 
 **1) Install CheddarGetter.CollabCoders NuGet Package**
@@ -78,4 +78,4 @@ public class YourController
     }
 }
 ```
-NOTE: CheddarGetter allows you to store custom meta data for each customer.  The ```Customer``` and ```CustomerPost``` models have an extra string parameter called ```AdditionalMetaData```, which you can use to pass an array of meta data arguments in a standard QueryString format (like in the example above).
+NOTE: CheddarGetter allows you to store custom meta data for each customer.  The ```Customer``` and ```CustomerPost``` models have an extra string parameter called ```AdditionalMetaData```, which you can use to pass an array of meta data parameters in a standard QueryString format (like in the example above).
