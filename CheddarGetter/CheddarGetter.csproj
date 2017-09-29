@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<PackageId>CheddarGetter.CollabCoders</PackageId>
+	<PackageVersion>1.0.0</PackageVersion>
+	<Author>Johnny Arguelles</Author>
+	<Description>.Net Core 2 Dependancy Injection Service Wrapper for CheddarGetter API.</Description>
+	<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+	<PackageReleaseNotes>First release</PackageReleaseNotes>
+	<Copyright>Copyright 2017 (c) CollabCoders.  All rights reserved.</Copyright>
+	<PackageTags>Dependancy Injection, CheddarGetter, API Wrapper</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\CheddarGetter.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0" />
+  </ItemGroup>
+
+</Project>
