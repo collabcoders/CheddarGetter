@@ -8,7 +8,7 @@ To use .NET Core dependency injection with options, these two packages are neede
 
 ```Microsoft.Extensions.DependencyInjection``` - this is the package for the core dependency injection features, such as the ```ServiceCollection``` class.
 
-```Microsoft.Extensions.Options``` – this package contains the IOptions interface, the OptionsManager for instantiating the options, as well as the extension methods ```AddOptions``` and ```Configure```.
+```Microsoft.Extensions.Options``` – this package contains the ```IOptions``` interface, the ```OptionsManager``` for instantiating the options, as well as the extension methods ```AddOptions``` and ```Configure```.
 
 
 **2) Install CheddarGetter.CollabCoders NuGet Package**
