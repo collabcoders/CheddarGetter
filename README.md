@@ -56,18 +56,16 @@ public class YourController
 ```
 
 
-**6) Add the CheddarGetter Service to you constructor on your Controller or Services**
+**6) Add the CheddarGetter Service interface to you constructor on your Controller or Services**
 
 ```csharp
 public class YourController
 {
-    private readonly CheddarGetterConfig _config;
+    private readonly ICheddarGetterService _cheddarGetterService;
 
-    public YourController(IOptions<CheddarGetterConfig> options)
+    public YourController(ICheddarGetterService cheddarGetterService)
     {
-        _config.productCode = options.Value.productCode;
-        _config.username = options.Value.username;
-        _config.password = options.Value.password;
+        _cheddarGetterService = cheddarGetterService;
     }
 
     public async Task<IActionResult> UpdateCustomer(SomeSampleUserModel user) 
@@ -81,7 +79,7 @@ public class YourController
 	    Company = user.Company,
 	    AdditionalMetaData = "metaData[ip]=" + Request.HttpContext.Connection.RemoteIpAddress + "&metaData[someOtherParam]=SomeOtherValue"
         };
-	await _cheddar.CreateCustomer(customer);
+	await _cheddarGetterService.CreateCustomer(customer);
 	return Json(customer);
     }
 }
