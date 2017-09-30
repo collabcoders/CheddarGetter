@@ -40,7 +40,7 @@ namespace CheddarGetter
     {
 
         private readonly IHttpService _httpService;
-        private readonly CheddarGetterConfig _config;
+        private CheddarGetterConfig _config = new CheddarGetterConfig();
 
         /// <summary>
         /// Constructor
