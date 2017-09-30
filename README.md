@@ -45,9 +45,19 @@ using CheddarGetter;
 
 public class YourController
 {
-    private readonly CheddarGetterConfig _config;
-    public YourController(IOptions<CheddarGetterConfig> options)
+	
+     private readonly ICheddarGetterService _cheddarGetterService;
+     
+    //only needed if you need access to your CheddarGetter product code, user name or password
+    private readonly CheddarGetterConfig _cGconfig;
+    
+    //IOptions only needed if you need access to your CheddarGetter product code, user name or password
+    public YourController(ICheddarGetterService cheddarGetterService,
+    	IOptions<CheddarGetterConfig> options)
     {
+    	_cheddarGetterService = cheddarGetterService;
+    	
+    	//only needed if you need access to your CheddarGetter product code, user name or password
         _config.productCode = options.Value.productCode;
         _config.username = options.Value.username;
         _config.password = options.Value.password;
@@ -61,6 +71,7 @@ public class YourController
 ```csharp
 public class YourController
 {
+    //Constructor
     private readonly ICheddarGetterService _cheddarGetterService;
 
     public YourController(ICheddarGetterService cheddarGetterService)
@@ -68,6 +79,7 @@ public class YourController
         _cheddarGetterService = cheddarGetterService;
     }
 
+    //Sample Usage of CheddarGetterService
     public async Task<IActionResult> UpdateCustomer(SomeSampleUserModel user) 
     {
         var customer = new Customer
