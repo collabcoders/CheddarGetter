@@ -45,22 +45,12 @@ using CheddarGetter;
 
 public class YourController
 {
-	
-     private readonly ICheddarGetterService _cheddarGetterService;
-     
-    //only needed if you need access to your CheddarGetter product code, user name or password
-    private readonly CheddarGetterConfig _cGconfig;
+    //Constructor
+    private readonly ICheddarGetterService _cheddarGetterService;
     
-    //IOptions only needed if you need access to your CheddarGetter product code, user name or password
-    public YourController(ICheddarGetterService cheddarGetterService,
-    	IOptions<CheddarGetterConfig> options)
+    public YourController(ICheddarGetterService cheddarGetterService)
     {
     	_cheddarGetterService = cheddarGetterService;
-    	
-    	//only needed if you need access to your CheddarGetter product code, user name or password
-        _config.productCode = options.Value.productCode;
-        _config.username = options.Value.username;
-        _config.password = options.Value.password;
     }
 }
 ```
