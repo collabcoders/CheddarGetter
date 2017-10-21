@@ -7,6 +7,7 @@ namespace CheddarGetter.Models
     {
         public Guid ID { get; set; }
         public string Code { get; set; }
+        public string PlanCode { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Company { get; set; }
@@ -16,7 +17,7 @@ namespace CheddarGetter.Models
         public DateTime CreatedDateTime { get; set; }
         public DateTime ModifiedDateTime { get; set; }
         public List<Subscription> Subscriptions { get; set; }
-
+        public string RemoteAddress { get; set; }
         public string AdditionalMetaData { get; set; }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Text;
 using System.IO;
-using System.Xml;
 using System.Net;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using CheddarGetter.Models;
-using System.Linq;
 
 namespace CheddarGetter.Helpers
 {
@@ -17,7 +13,6 @@ namespace CheddarGetter.Helpers
     {
         string getRequest(string urlPath);
         Task<string> postRequest(string urlPath, string postParams);
-        Task<XmlDocument> XmlPostRequest(string urlPath, string postParams);
     }
 
     public class HttpService : IHttpService
@@ -42,8 +37,7 @@ namespace CheddarGetter.Helpers
         /// <returns>A string of XML data that is returned for the request</returns>
         public string getRequest(string urlPath)
         {
-            string result = "";
-
+            string result = string.Empty;
             try
             {
                 HttpWebRequest request = WebRequest.Create(baseUrl + urlPath) as HttpWebRequest;
@@ -52,7 +46,6 @@ namespace CheddarGetter.Helpers
                 request.Credentials = new NetworkCredential(_username, _password);
 
                 // Get response  
-
                 using (WebResponse response = request.GetResponseAsync().Result)
                 {
                     // Get the response stream  
@@ -60,31 +53,11 @@ namespace CheddarGetter.Helpers
 
                     result = reader.ReadToEnd();
                 }
-
             }
-            catch (WebException wex)
+            catch (Exception ex)
             {
-                HttpWebResponse response = wex.Response as HttpWebResponse;
-
-                XDocument xDoc = XDocument.Load(response.GetResponseStream());
-                List<CGError> errorList = new List<CGError>();
-                errorList = (from e in xDoc.Descendants("errors")
-                             select new CGError
-                             {
-                                 ID = (string)e.Attribute("id"),
-                                 Code = (string)e.Attribute("code"),
-                                 AuxCode = (string)e.Attribute("auxCode"),
-                                 Message = (string)e.Element("error")
-                             }).ToList();
-
-                foreach (CGError e in errorList)
-                {
-                    result = "Error:" + e.Message.ToString();
-                }
-
-                //throw wex;
+                throw ex;
             }
-
             return result;
         }
 
@@ -96,89 +69,39 @@ namespace CheddarGetter.Helpers
         /// <returns>A string of XML data that is returned for the request</returns>
         public async Task<string> postRequest(string urlPath, string postParams)
         {
-            string result = "";
+            string result = string.Empty;
             try
             {
                 //Create request
                 WebRequest request = WebRequest.Create(baseUrl + urlPath);
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
                 request.Credentials = new NetworkCredential(_username, _password);
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.Method = "POST";
 
                 //Set data in request
-                Stream dataStream = await request.GetRequestStreamAsync();
-                byte[] bytes = Encoding.UTF8.GetBytes(removeFirstAnd(postParams));
-                dataStream.Write(bytes, 0, bytes.Length);
+                var finalParams = removeFirstAnd(postParams);
+                byte[] bytes = Encoding.UTF8.GetBytes(finalParams);
+                request.ContentLength = bytes.Length;
 
-                //Get the response
-                WebResponse wr = await request.GetResponseAsync();
-
-                Stream receiveStream = wr.GetResponseStream();
-                StreamReader reader = new StreamReader(receiveStream, Encoding.UTF8);
-                result = reader.ReadToEnd();
-            }
-            catch (WebException wex)
-            {
-                HttpWebResponse response = wex.Response as HttpWebResponse;
-
-                XDocument xDoc = XDocument.Load(response.GetResponseStream());
-                List<CGError> errorList = new List<CGError>();
-                errorList = (from e in xDoc.Descendants("errors")
-                             select new CGError
-                             {
-                                 ID = (string)e.Attribute("id"),
-                                 Code = (string)e.Attribute("code"),
-                                 AuxCode = (string)e.Attribute("auxCode"),
-                                 Message = (string)e.Element("error")
-                             }).ToList();
-
-                foreach (CGError e in errorList)
+                using (Stream dataStream = await request.GetRequestStreamAsync())
                 {
-                    result = "Error:" + e.Message.ToString();
-                }
+                    dataStream.Write(bytes, 0, bytes.Length);
 
-                //throw wex;
+                    //Get the response
+                    using (WebResponse wr = await request.GetResponseAsync())
+                    {
+                        using (StreamReader reader = new StreamReader(wr.GetResponseStream(), Encoding.UTF8))
+                        {
+                            result = reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             return result;
-        }
-
-        /// <summary>
-        /// Handles the POST request
-        /// </summary>
-        /// <param name="urlPath">The rest of the URL for the request</param>
-        /// <param name="postParams">Any additional parameters for the POST are added here</param>
-        /// <returns>XML data/document tyupe that is returned for the request</returns>
-        public async Task<XmlDocument> XmlPostRequest(string urlPath, string postParams)
-        {
-            try
-            {
-                //Create request
-                WebRequest request = WebRequest.Create(baseUrl + urlPath);
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Credentials = new NetworkCredential(_username, _password);
-
-                //Set data in request
-                Stream dataStream = await request.GetRequestStreamAsync();
-                byte[] bytes = Encoding.UTF8.GetBytes(removeFirstAnd(postParams));
-                dataStream.Write(bytes, 0, bytes.Length);
-
-                //Get the response
-                WebResponse wr = await request.GetResponseAsync();
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(wr.GetResponseStream());
-                return (xmlDoc);
-            }
-            catch (WebException wex)
-            {
-                HttpWebResponse response = wex.Response as HttpWebResponse;
-
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(response.GetResponseStream());
-                return (xmlDoc);
-
-                //throw wex;
-            }
         }
 
         /// <summary>

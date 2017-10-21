@@ -261,7 +261,7 @@ namespace CheddarGetter
             try
             {
                 string urlPath = $"/customers/new/productCode/{_config.productCode}";
-                string postParams = "subscription[method]=paypal" + 
+                string postParams = "subscription[method]=paypal" +
                     FormatFunctions.addParam("code", customer.Code) +
                     FormatFunctions.addParam("firstName", customer.FirstName) +
                     FormatFunctions.addParam("lastName", customer.LastName) +
@@ -292,7 +292,7 @@ namespace CheddarGetter
         /// <summary>
         /// Create a new customer without credit card info based on the passed in Customer object
         /// </summary>
-        /// <param name="customer">A CustomerPost object that represents a customer to be created</param>
+        /// <param name="customer">A Customer object that represents a customer to be created</param>
         /// <returns>A newly created Customer object</returns>
         public async Task<Customer> CreateCustomer(Customer customer)
         {
@@ -302,11 +302,14 @@ namespace CheddarGetter
             {
                 string urlPath = string.Format("/customers/new/productCode/{0}", _config.productCode);
                 var postParams = FormatFunctions.addParam("code", customer.Code) +
-                    FormatFunctions.addParam("firstName", customer.FirstName) +
-                    FormatFunctions.addParam("lastName", customer.LastName) +
-                    FormatFunctions.addParam("email", customer.Company) +
-                    FormatFunctions.addParam("company", customer.Email) +
-                    FormatFunctions.addMetaDataParams(customer.AdditionalMetaData);
+                                 FormatFunctions.addParam("firstName", customer.FirstName) +
+                                 FormatFunctions.addParam("lastName", customer.LastName) +
+                                 FormatFunctions.addParam("email", customer.Email) +
+                                 FormatFunctions.addParam("company", customer.Company) +
+                                 FormatFunctions.addParam("notes", customer.Notes) +
+                                 FormatFunctions.addParam("subscription[planCode]", customer.PlanCode) +
+                                 FormatFunctions.addParam("remoteAddress", customer.RemoteAddress) +
+                                 FormatFunctions.addMetaDataParams(customer.AdditionalMetaData);
 
                 string result = await _httpService.postRequest(urlPath, postParams);
                 XDocument newCustomerXML = XDocument.Parse(result);
@@ -342,6 +345,7 @@ namespace CheddarGetter
                 FormatFunctions.addParam("email", customer.Email) +
                 FormatFunctions.addParam("company", customer.Company) +
                 FormatFunctions.addParam("notes", customer.Notes) +
+                FormatFunctions.addParam("remoteAddress", customer.RemoteAddress) +
                 FormatFunctions.addMetaDataParams(customer.AdditionalMetaData);
 
                 string result = await _httpService.postRequest(urlPath, postParams);
@@ -387,6 +391,7 @@ namespace CheddarGetter
                     FormatFunctions.addParam("subscription[ccExpiration]", FormatFunctions.formatMonth(customer.CCExpMonth) + @"/" + customer.CCExpYear) +
                     FormatFunctions.addParam("subscription[ccCardCode]", customer.CCCardCode) +
                     FormatFunctions.addParam("subscription[ccZip]", customer.CCZip) +
+                    FormatFunctions.addParam("remoteAddress", customer.RemoteAddress) +
                     FormatFunctions.addMetaDataParams(customer.AdditionalMetaData);
 
                 string result = await _httpService.postRequest(urlPath, postParams);
@@ -426,7 +431,9 @@ namespace CheddarGetter
                 FormatFunctions.addParam("ccNumber", customer.CCNumber) +
                 FormatFunctions.addParam("ccExpiration", FormatFunctions.formatMonth(customer.CCExpMonth) + @"/" + customer.CCExpYear) +
                 FormatFunctions.addParam("ccCardCode", customer.CCCardCode) +
-                FormatFunctions.addParam("ccZip", customer.CCZip);
+                FormatFunctions.addParam("ccZip", customer.CCZip) +
+                FormatFunctions.addParam("remoteAddress", customer.RemoteAddress) +
+                FormatFunctions.addMetaDataParams(customer.AdditionalMetaData);
 
                 string result = await _httpService.postRequest(urlPath, postParams);
                 XDocument newCustomerXML = XDocument.Parse(result);

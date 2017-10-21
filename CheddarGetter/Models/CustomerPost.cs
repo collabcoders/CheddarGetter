@@ -17,6 +17,7 @@
         public string CCExpYear { get; set; }
         public string CCCardCode { get; set; }
         public string CCZip { get; set; }
+        public string RemoteAddress { get; set; }
         public string AdditionalMetaData { get; set; }
     }
 }
