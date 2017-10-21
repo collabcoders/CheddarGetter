@@ -79,7 +79,8 @@ public class YourController
 	    LastName = user.lastName,
 	    Email = user.email,
 	    Company = user.Company,
-	    AdditionalMetaData = "metaData[ip]=" + Request.HttpContext.Connection.RemoteIpAddress + "&metaData[someOtherParam]=SomeOtherValue"
+	    RemoteAddress = Request.HttpContext.Connection.RemoteIpAddress,
+	    AdditionalMetaData = "metaData[someCustomParam]=someCustomValue&metaData[someOtherParam]=SomeOtherValue"
         };
 	await _cheddarGetterService.CreateCustomer(customer);
 	return Json(customer);
