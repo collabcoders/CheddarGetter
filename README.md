@@ -1,6 +1,6 @@
 # [CheddarGetter](https://cheddargetter.com) .Net Core API Services Wrapper
 
-Uses .Net Core Dependancy Injection for ChaddarGetter API (extended from John Siladie's [nofxsnap/CheddarGetter repo](https://github.com/nofxsnap/CheddarGetter)).  API wrapper has implemented all of CheddarGetter's APIs as of 09/28/2017.
+Uses .Net Core Dependancy Injection for ChaddarGetter API (extended from John Siladie's [nofxsnap/CheddarGetter repo](https://github.com/nofxsnap/CheddarGetter)).  API wrapper has implemented all of CheddarGetter's APIs as of 10/21/2017.
 
 **1) Install required NuGet packages**
 
