@@ -173,7 +173,7 @@ namespace CheddarGetter
             Customers customers = new Customers();
             Customer customer = new Customer();
 
-            //use id for code for unique customer code that we create
+            //use id for CG ID or code for unique customer code that we create
             string urlPath = $"/customers/get/productCode/{_config.productCode}/code/{customerCode}";
             try
             {
@@ -797,9 +797,9 @@ namespace CheddarGetter
                                     Notes = (string)c.Element("notes"),
                                     Email = (string)c.Element("email"),
                                     GatewayToken = (string)c.Element("gatewayToken"),
-                                    CreatedDateTime = (DateTime)c.Element("createdDatetime"),
-                                    ModifiedDateTime = (DateTime)c.Element("modifiedDatetime"),
-                                    Subscriptions = getSubscriptionList(c.Element("subscriptions")),
+                                    //CreatedDateTime = (DateTime)c.Element("createdDatetime"),
+                                    //ModifiedDateTime = (DateTime)c.Element("modifiedDatetime"),
+                                    //Subscriptions = getSubscriptionList(c.Element("subscriptions")),
                                 }).ToList();
 
                 errorList = (from e in customersXML.Descendants("errors")
