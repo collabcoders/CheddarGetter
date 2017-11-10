@@ -173,8 +173,8 @@ namespace CheddarGetter
             Customers customers = new Customers();
             Customer customer = new Customer();
 
-            //use id for CG ID or code for unique customer code that we create
-            string urlPath = $"/customers/get/productCode/{_config.productCode}/id/{customerCode}";
+            //use id for code for unique customer code that we create
+            string urlPath = $"/customers/get/productCode/{_config.productCode}/code/{customerCode}";
             try
             {
                 string result = _httpService.getRequest(urlPath);
@@ -187,15 +187,6 @@ namespace CheddarGetter
                 {
                     customer = customers.CustomerList[0];
                 }
-            }
-            catch (WebException ex)
-            {
-                HttpWebResponse response = (HttpWebResponse)ex.Response;
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
-                throw ex;
             }
             catch (Exception ex)
             {
